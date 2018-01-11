@@ -28,10 +28,7 @@ public class PlayerController : MonoBehaviour {
 	[Header("References")]
 	public SphereCollider sphereCol;
 
-	[Header("Other Colliders")]
-	public BoxCollider boxCollider;
-	[Header("If you have a mesh collider you must have a box collider with it")]
-	public MeshCollider meshCollider;
+
 
 
 	//Private Variables
@@ -169,17 +166,7 @@ public class PlayerController : MonoBehaviour {
 		if (sphereCol != null) {
 			num = Physics.OverlapSphereNonAlloc (transform.TransformPoint (sphereCol.center), sphereCol.radius, overlaps, discludePlayer, QueryTriggerInteraction.UseGlobal);
 			myCollider = sphereCol;
-		} else if (boxCollider != null) {
-			num = Physics.OverlapBoxNonAlloc (transform.TransformPoint (boxCollider.center), boxCollider.size / 2, overlaps, transform.rotation, discludePlayer, QueryTriggerInteraction.UseGlobal);
-			myCollider = boxCollider;
-		}
-
-		if (meshCollider != null)
-			myCollider = meshCollider;
-
-		if (meshCollider != null && boxCollider == null)
-			Debug.LogError ("You need a box collider as well even though you have a mesh collider");
-
+		} 
 
 		for (int i = 0; i < num; i++) {
 
@@ -213,17 +200,22 @@ public class PlayerController : MonoBehaviour {
 		if (grounded && jumpHeight > 0.2f || jumpHeight <= 0.2f && grounded) {
 			jumpHeight = 0;
 			inputJump = false;
+
 		}
 
 		if (grounded && canJump) {
-			if (Input.GetKeyDown (KeyCode.Space)) {
+
+			if (Input.GetKeyDown(KeyCode.Space)){
 				inputJump = true;
-				transform.position += Vector3.up * 0.6f * 2;
+				transform.position += Vector3.up * 0.6f;
 				jumpHeight += jumpForce;
 			}
+
 		} else {
 			if (!grounded) {
+
 				jumpHeight -= (jumpHeight * jumpDecrease * Time.deltaTime);
+
 			}
 		}
 
