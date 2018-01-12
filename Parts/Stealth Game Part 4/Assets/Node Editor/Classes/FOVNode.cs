@@ -43,8 +43,8 @@ public class FOVNode : Node {
 
 	public void CallAction() {
 		if (checker != null && targetObject != null) {
-			bool isInFov = FOVDetection.inFOV ((Transform)checker, (Transform)targetObject, angle, radius);
-			Debug.Log (targetObject.name + " is in FOV of " + checker.name + " = " + isInFov);
+			//bool isInFov = FOVDetection.inFOV ((Transform)checker, (Transform)targetObject, angle, radius);
+			//Debug.Log (targetObject.name + " is in FOV of " + checker.name + " = " + isInFov);
 		}
 	}
 

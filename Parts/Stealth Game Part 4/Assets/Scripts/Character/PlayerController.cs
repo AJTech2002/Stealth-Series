@@ -201,7 +201,7 @@ public class PlayerController : MonoBehaviour {
 	private float jumpHeight = 0;
 	private bool inputJump = false;
 
-	private float fallMultiplier = -1;
+    private float fallMultiplier = -1;
 
 	private void Jump() {
 		bool canJump = false;
@@ -211,22 +211,22 @@ public class PlayerController : MonoBehaviour {
 		if (grounded && jumpHeight > 0.2f || jumpHeight <= 0.2f && grounded) {
 			jumpHeight = 0;
 			inputJump = false;
-			fallMultiplier = -1;
+            fallMultiplier = -1;
 		}
 
 		if (grounded && canJump) {
 
 			if (Input.GetKeyDown(KeyCode.Space)){
 				inputJump = true;
-				transform.position += Vector3.up * 0.6f;
+                transform.position += Vector3.up * 0.6f;
 				jumpHeight += jumpForce;
 			}
 
 		} else {
 			if (!grounded) {
 
-				jumpHeight -= (jumpHeight * jumpDecrease * Time.deltaTime) + fallMultiplier * Time.deltaTime;
-				fallMultiplier += incrementJumpFallSpeed;
+                jumpHeight -= (jumpHeight * jumpDecrease * Time.deltaTime) + fallMultiplier * Time.deltaTime;
+                fallMultiplier += incrementJumpFallSpeed;
 
 			}
 		}
