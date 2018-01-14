@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -88,7 +88,6 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaDirect: 0.5
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
-    m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -336,9 +335,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0d17a983d45057498b95ddde4cefcb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1770803551}
-  maxAngle: 71.07
-  maxRadius: 15.02
 --- !u!23 &235441670
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -510,11 +506,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1770803551}
   - component: {fileID: 1770803550}
-  - component: {fileID: 1770803549}
   - component: {fileID: 1770803548}
   - component: {fileID: 1770803552}
   - component: {fileID: 1770803553}
-  - component: {fileID: 1770803554}
   m_Layer: 8
   m_Name: Capsule
   m_TagString: Untagged
@@ -556,19 +550,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &1770803549
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1770803547}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!33 &1770803550
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -583,7 +564,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1770803547}
   m_LocalRotation: {x: -0, y: -0.7113829, z: -0, w: 0.7028047}
-  m_LocalPosition: {x: 7.02, y: 1.18, z: 6.34}
+  m_LocalPosition: {x: 7.15, y: 1.18, z: -4.26}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -625,18 +606,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5045879
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!65 &1770803554
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1770803547}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 2, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2103152382
 GameObject:
   m_ObjectHideFlags: 0
