@@ -8,10 +8,6 @@ public class ArmIK : MonoBehaviour
     #region Variables
 
     [Header("Options")]
-    public Transform capsule;
-    public bool drawJoints;
-    public bool drawConstraints;
-    public float currentAngle;
     [Range(0,2)]
     public float elbowPower;
 
@@ -23,23 +19,8 @@ public class ArmIK : MonoBehaviour
     public Transform lowerRef;
     public Transform handRef;
 
-    [Header("Mesh References")]
-    public Transform upperMesh;
-    public Transform lowerMesh;
-    public Transform handMesh;
-
-    public Vector3 upperOffset;
-    public Vector3 lowerOffset;
-
-    [Header("Constraints")]
+    [Header("Spherical Constraints")]
     public SphericalConstraint upperConstraint;
-    public IrregularElipseConstraint lowerConstraint;
-
-
-    [Header("Angular Constraints")]
-    public Vector3 minAngularUpper;
-    public Vector3 maxAngularUpper;
-
 
     [HideInInspector]
     public Vector3 centroidPos;
@@ -59,12 +40,7 @@ public class ArmIK : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (drawJoints)
-             JointDrawing();
-    }
-  
-    private void JointDrawing()
-    {
+        
         if (handRef != null)
         {
 
@@ -75,7 +51,7 @@ public class ArmIK : MonoBehaviour
             Gizmos.DrawLine(upperRef.position, lowerRef.position);
             Gizmos.DrawLine(lowerRef.position, handRef.position);
 
-            Gizmos.color = Color.cyan;
+            Gizmos.color = Color.magenta;
             Gizmos.DrawLine(lowerRef.position, elbowRef.position);
 
             Gizmos.color = Color.red;
@@ -86,8 +62,11 @@ public class ArmIK : MonoBehaviour
 
 
         }
+
+
     }
-    
+
+
     #endregion
 
     #region Setup 
@@ -112,16 +91,12 @@ public class ArmIK : MonoBehaviour
 
     #region Algorithm
 
-
-    public void SetupRefs()
+   /* private void LateUpdate()
     {
-        if (lowerMesh != null)
-        {
-            upperRef.position = upperMesh.position;
-            lowerRef.position = lowerMesh.position;
-            handRef.position = handMesh.position;
-        }
-    }
+        SolveBackward(endEffector.position);
+        SolveForward(centroidPos);
+        SetTempPos();
+    } */
 
     public Vector3 SolveBackward(Vector3 endEffector)
     {
@@ -130,7 +105,7 @@ public class ArmIK : MonoBehaviour
         tempHand = endEffector;
 
         Vector3 handToLower = (lowerRef.position - tempHand).normalized * lowerToHandDist;
-        tempLower = (tempHand + handToLower + (elbowRef.position - lowerRef.position).normalized * elbowPower);
+        tempLower = tempHand + handToLower + (elbowRef.position - lowerRef.position).normalized * elbowPower;
 
         Vector3 lowerToUpper = (upperRef.position - tempLower).normalized * upperToLowerDist;
         tempUpper = tempLower + lowerToUpper;
@@ -151,33 +126,36 @@ public class ArmIK : MonoBehaviour
         tempUpper = tempCentroid + centroidToUpper;
 
         Vector3 upperToLower = (tempLower - tempUpper).normalized * upperToLowerDist;
-            tempLower = tempUpper + upperToLower;
+        tempLower = tempUpper + upperToLower;
 
         Vector3 lowerToHand = (tempHand - tempLower).normalized * lowerToHandDist;
         tempHand = tempLower + lowerToHand;
 
     }
 
-    public void UpdateAll()
+    public void SetTempPos()
     {
-        tempUpper = upperConstraint.clampIfNeeded(tempUpper);
-        tempLower = (tempUpper + (tempLower - tempUpper).normalized * upperToLowerDist);
-        tempHand = tempLower + (tempHand - tempLower).normalized * lowerToHandDist;
+        if (upperConstraint != null)
+        {
 
-        
+            tempUpper = upperConstraint.clampIfNeeded(tempUpper);
+            tempLower = (tempUpper + (tempLower - tempUpper).normalized * upperToLowerDist);
+            tempHand = (tempLower + (tempHand - tempLower).normalized * lowerToHandDist);
+
+        }
+
+
 
         upperRef.position = tempUpper;
         lowerRef.position = tempLower;
         handRef.position = tempHand;
 
-        
+        centroidPos = centroidRef.position;
+
     }
 
-   
 
 
     #endregion
 
 }
-
-

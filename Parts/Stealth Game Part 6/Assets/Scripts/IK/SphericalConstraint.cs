@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SphericalConstraint : MonoBehaviour
-{
+public class SphericalConstraint : MonoBehaviour {
 
     public float sphereRadius;
     public Transform relativeObject;
@@ -23,16 +22,15 @@ public class SphericalConstraint : MonoBehaviour
         Gizmos.DrawWireSphere(c, sphereRadius);
     }
 
-    public bool PointIsInSphere(Vector3 point)
+    public bool PointIsInSphere (Vector3 point)
     {
-
         Vector3 originalPoint = centerPoint;
         float radius = sphereRadius;
 
         Vector3 vecDist = originalPoint - point;
         float fDistSq = Vector3.Dot(vecDist, vecDist);
 
-        if (fDistSq < (radius * radius))
+        if (fDistSq < (radius*radius))
         {
             return true;
         }
@@ -43,29 +41,20 @@ public class SphericalConstraint : MonoBehaviour
 
     public Vector3 closestPointOnBounds(Vector3 point)
     {
-
         Vector3 originalCenter = centerPoint;
         float radius = sphereRadius;
 
-        float r = radius;
-        Vector3 c = originalCenter;
         Vector3 dif = point - originalCenter;
-        Vector3 returnPoint = c + (r / dif.magnitude) * dif * 1f;
+        Vector3 returnPoint = centerPoint + (radius / dif.magnitude) * dif * 1f;
+
         return returnPoint;
+
     }
 
 
     public Vector3 clampIfNeeded (Vector3 point)
     {
         if (PointIsInSphere(point))
-            return point;
-        else
-            return closestPointOnBounds(point);
-    }
-
-    public Vector3 inverseClampIfNeeded(Vector3 point)
-    {
-        if (!PointIsInSphere(point))
             return point;
         else
             return closestPointOnBounds(point);
