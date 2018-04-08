@@ -53,12 +53,12 @@ public class PlayerController : MonoBehaviour {
 		CollisionCheck ();
 	}
 
-	#endregion
+    #endregion
 
-	#region Movement Methods
-
+    #region Movement Methods
+    float maxLength = 1f;
 	private void SimpleMove() {
-		move = new Vector3 (Input.GetAxis ("Horizontal"), 0, Input.GetAxis ("Vertical"));
+		move = Vector3.ClampMagnitude(new Vector3 (Input.GetAxis ("Horizontal"), 0, Input.GetAxis ("Vertical")),maxLength);
 		velocity += move;
 	}
 		

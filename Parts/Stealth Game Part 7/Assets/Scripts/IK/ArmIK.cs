@@ -22,6 +22,16 @@ public class ArmIK : MonoBehaviour
     [Header("Spherical Constraints")]
     public SphericalConstraint upperConstraint;
 
+    [Header("Model References")]
+    public Transform upperModel;
+    public Transform lowerModel;
+
+    [Header("Model Offsets")]
+    public Vector3 upperOffset;
+    public Vector3 lowerOffset;
+
+
+
     [HideInInspector]
     public Vector3 centroidPos;
 
@@ -33,6 +43,8 @@ public class ArmIK : MonoBehaviour
     private float centroidToUpperDist;
     private float upperToLowerDist;
     private float lowerToHandDist;
+
+
 
     #endregion
 
@@ -73,6 +85,7 @@ public class ArmIK : MonoBehaviour
 
     private void Awake()
     {
+        SetModelPosition();
         SetupVariables();
     }
 
@@ -85,6 +98,13 @@ public class ArmIK : MonoBehaviour
         centroidPos = centroidRef.position;
         tempCentroid = centroidPos;
 
+    }
+
+    public void SetModelPosition()
+    {
+        upperRef.position = upperModel.position;
+        lowerRef.position = lowerModel.position;
+        tempHand = (tempLower + (tempHand - tempLower).normalized * lowerToHandDist);
     }
 
     #endregion
@@ -144,7 +164,13 @@ public class ArmIK : MonoBehaviour
 
         }
 
+        Vector3 cross = Vector3.Cross((elbowRef.position - tempLower).normalized, (tempUpper - tempLower).normalized).normalized;
 
+        upperModel.LookAt(tempLower, cross);
+        upperModel.Rotate(upperOffset);
+
+        lowerModel.LookAt(tempHand, cross);
+        lowerModel.Rotate(lowerOffset);
 
         upperRef.position = tempUpper;
         lowerRef.position = tempLower;
