@@ -16,6 +16,8 @@ public class RootIK : MonoBehaviour {
 
     private void SolveIK()
     {
+       
+
         Vector3 arm1V = arm1.SolveBackward(arm1.endEffector.position);
         Vector3 arm2V = arm2.SolveBackward(arm2.endEffector.position);
 
@@ -29,7 +31,7 @@ public class RootIK : MonoBehaviour {
         arm1.SetTempPos();
         arm2.SetTempPos();
 
-        transform.position = centroid;
+        transform.position = Vector3.Lerp(transform.position,centroid,0.2f);
 
     }
 

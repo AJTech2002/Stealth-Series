@@ -53,12 +53,12 @@ public class PlayerController : MonoBehaviour {
 		CollisionCheck ();
 	}
 
-    #endregion
+	#endregion
 
-    #region Movement Methods
-    float maxLength = 1f;
+	#region Movement Methods
+
 	private void SimpleMove() {
-		move = Vector3.ClampMagnitude(new Vector3 (Input.GetAxis ("Horizontal"), 0, Input.GetAxis ("Vertical")),maxLength);
+		move = Vector3.ClampMagnitude(new Vector3 (Input.GetAxis ("Horizontal"), 0, Input.GetAxis ("Vertical")), 1);
 		velocity += move;
 	}
 		
@@ -219,7 +219,7 @@ public class PlayerController : MonoBehaviour {
 
 			if (Input.GetKeyDown(KeyCode.Space)){
 				inputJump = true;
-                transform.position += Vector3.up * 0.6f;
+                transform.position += Vector3.up * 0.2f;
 				jumpHeight += jumpForce;
 			}
 

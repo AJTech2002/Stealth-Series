@@ -10,6 +10,7 @@ public class ArmIK : MonoBehaviour
     [Header("Options")]
     [Range(0,2)]
     public float elbowPower;
+    public float refFollowSpeed;
 
     [Header("Joint References")]
     public Transform endEffector;
@@ -26,10 +27,9 @@ public class ArmIK : MonoBehaviour
     public Transform upperModel;
     public Transform lowerModel;
 
-    [Header("Model Offsets")]
+    [Header("Model Offset")]
     public Vector3 upperOffset;
     public Vector3 lowerOffset;
-
 
 
     [HideInInspector]
@@ -105,6 +105,7 @@ public class ArmIK : MonoBehaviour
         upperRef.position = upperModel.position;
         lowerRef.position = lowerModel.position;
         tempHand = (tempLower + (tempHand - tempLower).normalized * lowerToHandDist);
+
     }
 
     #endregion
@@ -165,16 +166,18 @@ public class ArmIK : MonoBehaviour
         }
 
         Vector3 cross = Vector3.Cross((elbowRef.position - tempLower).normalized, (tempUpper - tempLower).normalized).normalized;
+        
 
-        upperModel.LookAt(tempLower, cross);
+        upperRef.position = Vector3.Lerp(upperRef.position,tempUpper,refFollowSpeed);
+        lowerRef.position = Vector3.Lerp(lowerRef.position,tempLower,refFollowSpeed);
+        handRef.position = Vector3.Lerp(handRef.position,tempHand,refFollowSpeed);
+
+        upperModel.LookAt(lowerRef, cross);
         upperModel.Rotate(upperOffset);
 
-        lowerModel.LookAt(tempHand, cross);
+        lowerModel.LookAt(handRef, cross);
         lowerModel.Rotate(lowerOffset);
 
-        upperRef.position = tempUpper;
-        lowerRef.position = tempLower;
-        handRef.position = tempHand;
 
         centroidPos = centroidRef.position;
 
